@@ -12,8 +12,8 @@ describe Oystercard do
   end
 
   it 'caps top up so that new balance after top up is max 90' do
-    oystercard.top_up(90)
-    expect{oystercard.top_up}.to raise error if {oystercard.balance == 90}
+    oystercard.balance >= 90
+    expect{oystercard.top_up}.to raise_error 'you have reached your max balance'
   end
 
 end
