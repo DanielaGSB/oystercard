@@ -19,12 +19,13 @@ class Oystercard
   def touch_in(station)
     fail 'insufficient funds' if insufficient_balance?
     @entry_station = station
+    # deduct(MIN_FARE)
   end
 
   def touch_out(station)
     @exit_station = station
-    deduct(MIN_FARE)
     @journeys << { entry_station: entry_station, exit_station: exit_station }
+    if journeys.length != 2 then deduct 6; else deduct(MIN_FARE) end
     @entry_station = nil
   end
 

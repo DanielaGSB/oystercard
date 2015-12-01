@@ -48,9 +48,14 @@ describe Oystercard do
       oystercard.touch_in(entry_station)
     end
     it { is_expected.to respond_to(:touch_out).with(1).argument }
-    it 'deduct the balance by minimum fare' do
+    it 'deduct the balance by min fare when journey is complete' do
       min = described_class::MIN_FARE
+      oystercard.touch_out(exit_station)
       expect { oystercard.touch_out(exit_station) }.to change { oystercard.balance }.by(-min)
+    end
+    it 'deduct the balance by fine when journey is incomplete' do
+      # min = described_class::MIN_FARE
+      expect { oystercard.touch_out(exit_station) }.to change { oystercard.balance }.by(-6)
     end
     it 'makes card forget entry_station when you touch out' do
       oystercard.touch_out(exit_station)
